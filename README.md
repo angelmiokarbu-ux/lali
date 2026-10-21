@@ -1,6 +1,6 @@
 # 📱 Multi Pusat Service HP & Gadget - Pulokulon, Grobogan
 
-Web aplikasi modern, responsif, dan *mobile-first* (bukan sekadar landing page statis) untuk bisnis **Jual Beli HP Bekas/Baru, Tukar Tambah, & Servis HP Bergaransi**. Dibangun menggunakan framework **React + TypeScript + Vite + Tailwind CSS** sehingga siap dikembangkan dengan fitur kompleks kapan saja.
+Web aplikasi modern, ringan, dan ramah pengguna awam untuk bisnis **Jual Beli HP Bekas/Baru, Tukar Tambah, & Servis HP Bergaransi**. Dibangun menggunakan **React + TypeScript + Vite + Tailwind CSS**.
 
 📍 **Toko Fisik & Google Maps:**  
 [Multi Pusat Service HP, Tawang, Jambon, Kec. Pulokulon, Kabupaten Grobogan, Jawa Tengah](https://maps.app.goo.gl/rPLD1EFEfyfR4hgPA)  
@@ -8,78 +8,65 @@ Web aplikasi modern, responsif, dan *mobile-first* (bukan sekadar landing page s
 
 ---
 
-## 🚀 Fitur Interaktif Web App (Tanpa AI-Slop)
+## 🔒 Akses Panel Admin (Rahasia & Aman)
 
-1. **📱 Katalog HP Terverifikasi**:
-   - Filter instan berdasarkan merek (*Apple iPhone, Samsung, Xiaomi, Oppo/Vivo*).
-   - Urutkan berdasarkan rekomendasi, harga terendah, atau harga tertinggi.
-   - Indikator kondisi fisik nyata (*Like New 99%*, *Mulus 95-98%*, *Battery Health*, garansi resmi SEIN/iBox).
-   - Modal detail unit lengkap dengan laporan hasil uji Quality Check (QC 30 titik).
+Di web toko publik **sama sekali tidak ada tombol atau link admin**. Pengunjung biasa tidak akan tahu ada panel kelola produk.
 
-2. **🔄 Kalkulator Tukar Tambah & Jual HP**:
-   - Form interaktif multi-langkah: input merek, tipe HP lama, kapasitas, kondisi, kelengkapan, dan minus.
-   - Pilihan: **Tukar Tambah** ke salah satu unit di katalog atau **Jual Langsung (Cair Tunai)** di konter.
-   - Otomatis membuat draf konsultasi lengkap yang siap dikirim langsung ke WhatsApp admin.
+### Cara Masuk ke Panel Admin:
+1. Buka link rahasia di browser HP / laptop:  
+   👉 **`https://angelmiokarbu-ux.github.io/lali/#/kelola-konter-rahasia`**  
+   *(Atau di server lokal: `http://localhost:5173/#/kelola-konter-rahasia`)*
+2. Masukkan **PIN Keamanan** default: **`8899`**
+3. Anda langsung masuk ke antarmuka **Kelola Unit HP & Upload Gambar**.
 
-3. **🛠️ Pusat Servis HP Bergaransi**:
-   - Pilihan servis hardware & software: Ganti LCD (bisa ditunggu), Ganti Baterai, Mati Total / Masuk Air, Konektor Cas, dan Software/Bootloop.
-   - Form estimasi biaya & ketersediaan part langsung terhubung ke teknisi via WhatsApp.
-
-4. **📍 Integrasi Google Maps & Profil Toko**:
-   - Peta embed lokasi toko fisik di Pulokulon, Grobogan.
-   - Tombol cepat **Petunjuk Arah** (langsung membuka navigasi Google Maps).
-   - Fitur salin alamat toko sekali klik.
-   - Jam operasional dan ulasan pelanggan Google Maps dengan rating 4.9⭐.
+> [!TIP]
+> Di tab **Pengaturan** pada panel admin, Anda bisa mengganti URL rahasia dan PIN keamanan sesuai keinginan kapan saja!
 
 ---
 
-## 🛠️ Struktur Kode & Arsitektur Framework
+## ☁️ Upload Gambar Otomatis ke GitHub Storage
 
-```text
-lali/
-├── .github/workflows/deploy.yml # Auto-deploy CI/CD ke GitHub Pages
-├── src/
-│   ├── components/
-│   │   ├── Header.tsx           # Navbar toko, status buka, & tombol kontak
-│   │   ├── BottomNav.tsx        # Navigasi tab bawah mobile-app
-│   │   ├── CatalogView.tsx      # Tampilan katalog & filter
-│   │   ├── ProductCard.tsx      # Kartu produk dengan detail specs & harga
-│   │   ├── ProductModal.tsx     # Modal detail spesifikasi & QC unit
-│   │   ├── TradeInView.tsx      # Kalkulator tukar tambah interaktif
-│   │   ├── ServiceView.tsx      # Estimator & konsultasi servis HP
-│   │   └── LocationView.tsx     # Profil Google Maps & lokasi toko
-│   ├── data/
-│   │   ├── products.ts          # Mock data produk HP & servis
-│   │   └── storeInfo.ts         # Data toko (nama, alamat, no WA, Google Maps)
-│   ├── types.ts                 # Definisi tipe data TypeScript
-│   ├── App.tsx                  # Controller utama & state tab
-│   └── main.tsx                 # Entry point React
-├── index.html                   # HTML entry point
-├── vite.config.ts               # Konfigurasi Vite & base path GitHub Pages
-└── package.json                 # Dependensi proyek
-```
+Panel admin dilengkapi integrasi **GitHub REST API**:
+- Ketika admin memilih foto HP dari galeri HP atau laptop, foto otomatis diunggah langsung ke repositori GitHub (`public/uploads/`).
+- Gambar langsung memiliki link CDN permanen (`jsDelivr / GitHub Raw`) berkecepatan tinggi yang tidak akan hilang atau kadaluarsa.
+- **Cara Mengaktifkan GitHub Storage**:
+  1. Buat token gratis di [github.com/settings/tokens](https://github.com/settings/tokens).
+  2. Pilih **Generate new token (classic)** dan centang izin **`repo`**.
+  3. Masukkan token tersebut pada tab **Pengaturan** di panel admin. Token tersimpan aman di browser perangkat Anda.
 
 ---
 
-## ⚙️ Kustomisasi Data Toko & Produk
+## 🛠️ Fitur Utama Aplikasi
 
-Untuk mengubah data toko atau daftar produk:
-- **Data Toko & Nomor WA**: Buka [`src/data/storeInfo.ts`](src/data/storeInfo.ts) dan perbarui nomor `phoneWa`.
-- **Daftar HP**: Buka [`src/data/products.ts`](src/data/products.ts) untuk menambah atau mengubah harga, foto, dan stok HP.
+1. **📱 Katalog HP Pilihan**:
+   - Filter cepat berdasarkan merek (*Semua, iPhone, Samsung, Xiaomi, Vivo, Oppo*).
+   - Pencarian instan berdasarkan nama/tipe HP.
+   - Status unit **Ready** atau **Sudah Terjual (Sold Out)**.
+   - Tombol ramah jempol WhatsApp: otomatis menyertakan nama HP, harga, kondisi, opsi tukar tambah, dan nego.
+
+2. **🛠️ Daftar Biaya Servis HP**:
+   - Estimasi biaya transparan (Ganti LCD, Baterai, Konektor Cas, HP Mati Total/Kena Air, dan Software).
+   - Indikator durasi (*Bisa Ditunggu*).
+   - Jaminan cek awal gratis tanpa biaya pembatalan.
+
+3. **📍 Lokasi Toko & Google Maps**:
+   - Tombol **Petunjuk Arah** satu klik untuk membuka rute navigasi langsung di Google Maps HP.
+   - Salin alamat toko sekali klik dan jam operasional.
 
 ---
 
-## 💻 Menjalankan di Lokal (Development)
+## 💻 Menjalankan di Komputer Lokal
 
 ```bash
 # Install dependensi
 npm install
 
-# Jalankan server dev lokal
+# Jalankan server lokal
 npm run dev
+
+# Akses panel admin di lokal
+# Buka http://localhost:5173/#/kelola-konter-rahasia (PIN: 8899)
 
 # Build untuk produksi
 npm run build
 ```
-
-Setiap kali melakukan `git push origin main`, GitHub Actions akan otomatis melakukan build dan memperbarui situs di GitHub Pages tanpa konfigurasi manual tambahan.
