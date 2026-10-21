@@ -1,56 +1,85 @@
-# 📱 Lali Gadget - Jual Beli & Tukar Tambah HP Bekas
+# 📱 Multi Pusat Service HP & Gadget - Pulokulon, Grobogan
 
-Landing page modern dan *mobile-first* untuk bisnis jual beli serta tukar tambah HP (smartphone) bekas bergaransi. Didesain khusus agar nyaman diakses lewat smartphone dan siap ditautkan langsung di profil **Google Maps**, **Instagram Bio**, maupun iklan media sosial.
+Web aplikasi modern, responsif, dan *mobile-first* (bukan sekadar landing page statis) untuk bisnis **Jual Beli HP Bekas/Baru, Tukar Tambah, & Servis HP Bergaransi**. Dibangun menggunakan framework **React + TypeScript + Vite + Tailwind CSS** sehingga siap dikembangkan dengan fitur kompleks kapan saja.
 
-🌐 **Live Demo (GitHub Pages):** [https://angelmiokarbu-ux.github.io/lali/](https://angelmiokarbu-ux.github.io/lali/)
-
----
-
-## ✨ Fitur Utama
-
-- 📱 **Mobile-First Experience**: Desain responsif menyerupai aplikasi mobile dengan navigasi melayang (*sticky bottom navigation*).
-- 📦 **Katalog Unit Siap Kirim**: Filter kategori instan (Semua, iPhone, Samsung, Xiaomi/Android) lengkap dengan indikator kondisi unit, *battery health*, dan harga.
-- 💬 **Direct WhatsApp Order**: Tombol "Beli" dan "Chat WA" langsung membuka WhatsApp dengan format pesan otomatis.
-- 🧮 **Kalkulator Taksiran Harga Jual**: Form interaktif bagi calon pelanggan untuk memilih tipe HP & kondisinya, kemudian mengirimkan rincian langsung ke WhatsApp admin.
-- 📍 **Integrasi Google Maps**:
-  - Peta embed lokasi toko fisik.
-  - Tombol pintas **"Petunjuk Arah"** ke Google Maps.
-  - Tampilan rating bintang 4.9⭐ dan testimoni pelanggan untuk membangun reputasi & kepercayaan (*social proof*).
-- ⚡ **Ringan & Cepat**: Dibangun dengan Tailwind CSS CDN murni tanpa dependensi build kompleks.
+📍 **Toko Fisik & Google Maps:**  
+[Multi Pusat Service HP, Tawang, Jambon, Kec. Pulokulon, Kabupaten Grobogan, Jawa Tengah](https://maps.app.goo.gl/rPLD1EFEfyfR4hgPA)  
+🌐 **Live Website (GitHub Pages):** [https://angelmiokarbu-ux.github.io/lali/](https://angelmiokarbu-ux.github.io/lali/)
 
 ---
 
-## 🛠️ Cara Kustomisasi Data Toko
+## 🚀 Fitur Interaktif Web App (Tanpa AI-Slop)
 
-Buka file [`index.html`](index.html) dan sesuaikan bagian berikut:
+1. **📱 Katalog HP Terverifikasi**:
+   - Filter instan berdasarkan merek (*Apple iPhone, Samsung, Xiaomi, Oppo/Vivo*).
+   - Urutkan berdasarkan rekomendasi, harga terendah, atau harga tertinggi.
+   - Indikator kondisi fisik nyata (*Like New 99%*, *Mulus 95-98%*, *Battery Health*, garansi resmi SEIN/iBox).
+   - Modal detail unit lengkap dengan laporan hasil uji Quality Check (QC 30 titik).
 
-### 1. Nomor WhatsApp
-Cari teks `6281234567890` dan ganti dengan nomor WhatsApp aktif toko Anda (gunakan format kode negara `62` tanpa awalan `0` atau tanda `+`).
+2. **🔄 Kalkulator Tukar Tambah & Jual HP**:
+   - Form interaktif multi-langkah: input merek, tipe HP lama, kapasitas, kondisi, kelengkapan, dan minus.
+   - Pilihan: **Tukar Tambah** ke salah satu unit di katalog atau **Jual Langsung (Cair Tunai)** di konter.
+   - Otomatis membuat draf konsultasi lengkap yang siap dikirim langsung ke WhatsApp admin.
 
-### 2. Lokasi & Google Maps
-- Cari bagian `id="lokasi"`.
-- Ganti alamat pada tag `<p class="text-slate-600 text-[11px]">` sesuai alamat toko Anda.
-- Ganti atribut `href="https://maps.google.com"` dengan link rute Google Maps bisnis Anda.
-- Ganti `src` pada tag `<iframe>` dengan embed link Google Maps toko Anda.
+3. **🛠️ Pusat Servis HP Bergaransi**:
+   - Pilihan servis hardware & software: Ganti LCD (bisa ditunggu), Ganti Baterai, Mati Total / Masuk Air, Konektor Cas, dan Software/Bootloop.
+   - Form estimasi biaya & ketersediaan part langsung terhubung ke teknisi via WhatsApp.
 
-### 3. Katalog Unit
-Katalog berada di dalam container `<div id="productList">`. Anda dapat menduplikasi elemen `.product-item` untuk menambahkan unit HP baru beserta foto dan harganya.
+4. **📍 Integrasi Google Maps & Profil Toko**:
+   - Peta embed lokasi toko fisik di Pulokulon, Grobogan.
+   - Tombol cepat **Petunjuk Arah** (langsung membuka navigasi Google Maps).
+   - Fitur salin alamat toko sekali klik.
+   - Jam operasional dan ulasan pelanggan Google Maps dengan rating 4.9⭐.
 
 ---
 
-## 🚀 Menjalankan Secara Lokal
+## 🛠️ Struktur Kode & Arsitektur Framework
 
-Untuk menguji web di komputer lokal:
-
-```bash
-# Jalankan web server sederhana menggunakan Python:
-python3 -m http.server 8080
-
-# Buka di browser:
-http://localhost:8080
+```text
+lali/
+├── .github/workflows/deploy.yml # Auto-deploy CI/CD ke GitHub Pages
+├── src/
+│   ├── components/
+│   │   ├── Header.tsx           # Navbar toko, status buka, & tombol kontak
+│   │   ├── BottomNav.tsx        # Navigasi tab bawah mobile-app
+│   │   ├── CatalogView.tsx      # Tampilan katalog & filter
+│   │   ├── ProductCard.tsx      # Kartu produk dengan detail specs & harga
+│   │   ├── ProductModal.tsx     # Modal detail spesifikasi & QC unit
+│   │   ├── TradeInView.tsx      # Kalkulator tukar tambah interaktif
+│   │   ├── ServiceView.tsx      # Estimator & konsultasi servis HP
+│   │   └── LocationView.tsx     # Profil Google Maps & lokasi toko
+│   ├── data/
+│   │   ├── products.ts          # Mock data produk HP & servis
+│   │   └── storeInfo.ts         # Data toko (nama, alamat, no WA, Google Maps)
+│   ├── types.ts                 # Definisi tipe data TypeScript
+│   ├── App.tsx                  # Controller utama & state tab
+│   └── main.tsx                 # Entry point React
+├── index.html                   # HTML entry point
+├── vite.config.ts               # Konfigurasi Vite & base path GitHub Pages
+└── package.json                 # Dependensi proyek
 ```
 
 ---
 
-## 📄 Lisensi
-Proyek ini dibuat untuk mendukung digitalisasi UMKM dan bisnis konter HP lokal. Bebas dimodifikasi dan digunakan sesuai kebutuhan bisnis Anda.
+## ⚙️ Kustomisasi Data Toko & Produk
+
+Untuk mengubah data toko atau daftar produk:
+- **Data Toko & Nomor WA**: Buka [`src/data/storeInfo.ts`](src/data/storeInfo.ts) dan perbarui nomor `phoneWa`.
+- **Daftar HP**: Buka [`src/data/products.ts`](src/data/products.ts) untuk menambah atau mengubah harga, foto, dan stok HP.
+
+---
+
+## 💻 Menjalankan di Lokal (Development)
+
+```bash
+# Install dependensi
+npm install
+
+# Jalankan server dev lokal
+npm run dev
+
+# Build untuk produksi
+npm run build
+```
+
+Setiap kali melakukan `git push origin main`, GitHub Actions akan otomatis melakukan build dan memperbarui situs di GitHub Pages tanpa konfigurasi manual tambahan.
