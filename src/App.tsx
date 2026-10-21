@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MainTab, PhoneItem, AdminSettings } from './types';
 import { PHONE_ITEMS, SERVICE_ITEMS } from './data/products';
 import { STORE } from './data/storeInfo';
@@ -15,22 +15,40 @@ export const App: React.FC = () => {
   const [products, setProducts] = useState<PhoneItem[]>(PHONE_ITEMS);
   const [settings, setSettings] = useState<AdminSettings>(getAdminSettings());
   const [isAdminMode, setIsAdminMode] = useState<boolean>(false);
+  const [footerTaps, setFooterTaps] = useState<number>(0);
 
-  // Check URL hash for secret admin route
+  // Check URL hash & search queries for admin route
+  const checkAdminRoute = useCallback(() => {
+    const rawHash = window.location.hash.toLowerCase().replace(/^[#/]+|[#/]+$/g, '').trim();
+    const searchParams = new URLSearchParams(window.location.search);
+    const configuredSlug = (settings.secretSlug || 'kelola-konter-rahasia').toLowerCase().trim();
+
+    const isHashMatch =
+      rawHash === configuredSlug ||
+      rawHash === 'admin' ||
+      rawHash === 'kelola' ||
+      rawHash === 'kelola-konter-rahasia';
+
+    const isQueryMatch =
+      searchParams.has('admin') ||
+      searchParams.has('kelola') ||
+      searchParams.has('rahasia') ||
+      searchParams.get('secret') === configuredSlug;
+
+    if (isHashMatch || isQueryMatch) {
+      setIsAdminMode(true);
+    }
+  }, [settings.secretSlug]);
+
   useEffect(() => {
-    const checkAdminRoute = () => {
-      const currentSlug = window.location.hash.replace(/^#\/?/, '');
-      if (currentSlug && currentSlug === settings.secretSlug) {
-        setIsAdminMode(true);
-      } else {
-        setIsAdminMode(false);
-      }
-    };
-
     checkAdminRoute();
     window.addEventListener('hashchange', checkAdminRoute);
-    return () => window.removeEventListener('hashchange', checkAdminRoute);
-  }, [settings.secretSlug]);
+    window.addEventListener('popstate', checkAdminRoute);
+    return () => {
+      window.removeEventListener('hashchange', checkAdminRoute);
+      window.removeEventListener('popstate', checkAdminRoute);
+    };
+  }, [checkAdminRoute]);
 
   // Load latest dynamic products from storage / cache
   useEffect(() => {
@@ -42,11 +60,27 @@ export const App: React.FC = () => {
   }, []);
 
   const handleBackToStore = () => {
-    window.location.hash = '';
+    if (window.location.hash) {
+      window.location.hash = '';
+    }
+    if (window.location.search) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
     setIsAdminMode(false);
   };
 
-  // --- RENDER ADMIN PANEL JIKA MASUK LEWAT LINK RAHASIA ---
+  // Secret tap on footer name
+  const handleFooterTap = () => {
+    const next = footerTaps + 1;
+    setFooterTaps(next);
+    if (next >= 4) {
+      setFooterTaps(0);
+      setIsAdminMode(true);
+    }
+    setTimeout(() => setFooterTaps(0), 3000);
+  };
+
+  // --- RENDER ADMIN PANEL JIKA MODE ADMIN AKTIF ---
   if (isAdminMode) {
     return (
       <AdminPanel
@@ -59,11 +93,14 @@ export const App: React.FC = () => {
     );
   }
 
-  // --- RENDER WEB TOKO PUBLIK UNTUK PENGUNJUNG BIASA ---
+  // --- RENDER WEB TOKO PUBLIK ---
   return (
     <div className="min-h-screen bg-slate-100 text-slate-800 flex flex-col font-sans pb-20">
-      {/* Top Navbar Toko */}
-      <Navbar onOpenLocation={() => setActiveTab('lokasi')} />
+      {/* Top Navbar Toko (Ketuk 4x Logo M untuk buka admin rahasia) */}
+      <Navbar
+        onOpenLocation={() => setActiveTab('lokasi')}
+        onOpenAdmin={() => setIsAdminMode(true)}
+      />
 
       {/* Main Container */}
       <main className="max-w-xl w-full mx-auto px-3.5 sm:px-4 py-3.5 space-y-3.5 flex-1">
@@ -114,9 +151,15 @@ export const App: React.FC = () => {
 
       </main>
 
-      {/* Simple Clean Footer */}
-      <footer className="text-center text-xs text-slate-400 py-6 px-4 border-t border-slate-200/60 mt-4">
-        <p className="font-bold text-slate-700">{STORE.name}</p>
+      {/* Simple Clean Footer (Ketuk 4x nama toko untuk trigger admin rahasia) */}
+      <footer className="text-center text-xs text-slate-400 py-6 px-4 border-t border-slate-200/60 mt-4 select-none">
+        <p
+          onClick={handleFooterTap}
+          className="font-bold text-slate-700 cursor-pointer active:opacity-70 transition inline-block"
+          title=""
+        >
+          {STORE.name}
+        </p>
         <p className="text-[11px] text-slate-500 mt-0.5">{STORE.fullAddress}</p>
         <p className="text-[11px] text-slate-400 mt-1">{STORE.hours}</p>
       </footer>
