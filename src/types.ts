@@ -1,41 +1,23 @@
-export type Category = 'all' | 'iphone' | 'samsung' | 'xiaomi' | 'oppo-vivo';
+export type BrandCategory = 'semua' | 'iPhone' | 'Samsung' | 'Xiaomi' | 'Oppo' | 'Vivo';
 
-export type ProductCondition = 'Baru' | 'Like New (99%)' | 'Mulus (95-98%)' | 'Normal Pemakaian';
-
-export interface Product {
+export interface PhoneItem {
   id: string;
   name: string;
-  brand: 'iPhone' | 'Samsung' | 'Xiaomi' | 'Oppo' | 'Vivo' | 'Infinix';
-  category: 'iphone' | 'samsung' | 'xiaomi' | 'oppo-vivo';
+  brand: 'iPhone' | 'Samsung' | 'Xiaomi' | 'Oppo' | 'Vivo';
   price: number;
-  originalPrice?: number;
-  storage: string;
-  ram?: string;
-  color: string;
-  condition: ProductCondition;
-  batteryHealth?: string;
-  warranty: string;
-  completeness: 'Fullset Dus Ori' | 'Fullset OEM' | 'Unit Saja (Batangan)';
-  images: string[];
-  specs: {
-    screen: string;
-    chipset: string;
-    camera: string;
-    battery: string;
-    network: string;
-  };
-  features: string[];
-  isAvailable: boolean;
-  isHot?: boolean;
+  condition: string;       // e.g. "Mulus 98% Normal"
+  completeness: string;    // e.g. "HP + Dus + Charger"
+  warranty: string;        // e.g. "Garansi Toko 1 Bulan"
+  image: string;
+  highlight?: string;      // e.g. "Baterai Awet, Sinyal Aman"
 }
 
-export type ActiveTab = 'katalog' | 'tukar-tambah' | 'servis' | 'lokasi';
-
-export interface RepairOption {
+export interface ServiceItem {
   id: string;
   name: string;
+  priceEstimate: string;
+  duration: string;
   description: string;
-  estimatedTime: string;
-  priceRange: string;
-  warrantyDays: number;
 }
+
+export type MainTab = 'katalog' | 'servis' | 'lokasi';
